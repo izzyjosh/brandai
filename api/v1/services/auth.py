@@ -131,6 +131,12 @@ class AuthService:
         github_id = github_user["id"]
         username = github_user["login"]
         email = github_user.get("email")
+        name = github_user.get("name")
+        avatar_url = github_user.get("avatar_url")
+        public_repos = github_user.get("public_repos")
+        followers = github_user.get("followers")
+        following = github_user.get("following")
+        private_repos = github_user.get("owned_private_repos")
 
         # Encrypt token before storing
         encrypted_token = encrypt_token(access_token)
@@ -142,6 +148,12 @@ class AuthService:
             # Update existing user
             user.username = username
             user.email = email
+            user.name = name
+            user.avatar_url = avatar_url
+            user.public_repos = public_repos
+            user.followers = followers
+            user.following = following
+            user.private_repos = private_repos
             user.github_access_token = encrypted_token
             user = await user.save()
         else:
@@ -150,6 +162,12 @@ class AuthService:
                 github_id=github_id,
                 username=username,
                 email=email,
+                name=name,
+                avatar_url=avatar_url,
+                public_repos=public_repos,
+                followers=followers,
+                following=following,
+                private_repos=private_repos,
                 github_access_token=encrypted_token,
             )
             user = await user.save()
@@ -171,6 +189,12 @@ class AuthService:
                 "github_id": user.github_id,
                 "username": user.username,
                 "email": user.email,
+                "name": user.name,
+                "avatar_url": user.avatar_url,
+                "public_repos": user.public_repos,
+                "followers": user.followers,
+                "following": user.following,
+                "private_repos": user.private_repos,
             },
         }
 
@@ -300,12 +324,24 @@ class AuthService:
                     github_id = github_user["id"]
                     username = github_user["login"]
                     email = github_user.get("email")
+                    name = github_user.get("name")
+                    avatar_url = github_user.get("avatar_url")
+                    public_repos = github_user.get("public_repos")
+                    followers = github_user.get("followers")
+                    following = github_user.get("following")
+                    private_repos = github_user.get("owned_private_repos")
                     encrypted_token = encrypt_token(access_token)
 
                     user = await User.find_by_github_id(github_id)
                     if user:
                         user.username = username
                         user.email = email
+                        user.name = name
+                        user.avatar_url = avatar_url
+                        user.public_repos = public_repos
+                        user.followers = followers
+                        user.following = following
+                        user.private_repos = private_repos
                         user.github_access_token = encrypted_token
                         user = await user.save()
                     else:
@@ -313,6 +349,12 @@ class AuthService:
                             github_id=github_id,
                             username=username,
                             email=email,
+                            name=name,
+                            avatar_url=avatar_url,
+                            public_repos=public_repos,
+                            followers=followers,
+                            following=following,
+                            private_repos=private_repos,
                             github_access_token=encrypted_token,
                         )
                         user = await user.save()
@@ -333,6 +375,12 @@ class AuthService:
                             "github_id": user.github_id,
                             "username": user.username,
                             "email": user.email,
+                            "name": user.name,
+                            "avatar_url": user.avatar_url,
+                            "public_repos": user.public_repos,
+                            "followers": user.followers,
+                            "following": user.following,
+                            "private_repos": user.private_repos,
                         },
                     }
 

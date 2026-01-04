@@ -1,5 +1,5 @@
 from datetime import datetime, timezone
-from typing import Optional
+from typing import Literal, Optional
 from bson import ObjectId
 from pymongo.errors import DuplicateKeyError
 from api.v1.utils.database import get_collection
@@ -16,6 +16,16 @@ class User:
         github_id: int,
         username: str,
         email: Optional[str] = None,
+        name: Optional[str] = None,
+        avatar_url: Optional[str] = None,
+        public_repos: Optional[int] = None,
+        followers: Optional[int] = None,
+        following: Optional[int] = None,
+        private_repos: Optional[int] = None,
+        cadence: Literal["daily", "weekly", "bi-weekly", "monthly"] = "weekly",
+        tone: Literal["formal", "informal", "casual"] = "formal",
+        emojis: bool = False,
+        hashtags: bool = True,
         github_access_token: Optional[str] = None,
         github_token_expires_at: Optional[datetime] = None,
         github_refresh_token: Optional[str] = None,
@@ -27,6 +37,16 @@ class User:
         self.github_id = github_id
         self.username = username
         self.email = email
+        self.name = name
+        self.avatar_url = avatar_url
+        self.public_repos = public_repos
+        self.followers = followers
+        self.following = following
+        self.private_repos = private_repos
+        self.cadence = cadence
+        self.tone = tone
+        self.emojis = emojis
+        self.hashtags = hashtags
         self.github_access_token = github_access_token
         self.github_token_expires_at = github_token_expires_at
         self.github_refresh_token = github_refresh_token
@@ -38,6 +58,16 @@ class User:
             "github_id": self.github_id,
             "username": self.username,
             "email": self.email,
+            "name": self.name,
+            "avatar_url": self.avatar_url,
+            "public_repos": self.public_repos,
+            "followers": self.followers,
+            "following": self.following,
+            "private_repos": self.private_repos,
+            "cadence": self.cadence,
+            "tone": self.tone,
+            "emojis": self.emojis,
+            "hashtags": self.hashtags,
             "github_access_token": self.github_access_token,
             "github_token_expires_at": self.github_token_expires_at,
             "github_refresh_token": self.github_refresh_token,
@@ -56,6 +86,16 @@ class User:
             github_id=data["github_id"],
             username=data["username"],
             email=data.get("email"),
+            name=data.get("name"),
+            avatar_url=data.get("avatar_url"),
+            public_repos=data.get("public_repos"),
+            followers=data.get("followers"),
+            following=data.get("following"),
+            private_repos=data.get("private_repos"),
+            cadence=data.get("cadence"),
+            tone=data.get("tone"),
+            emojis=data.get("emojis"),
+            hashtags=data.get("hashtags"),
             github_access_token=data.get("github_access_token"),
             github_token_expires_at=data.get("github_token_expires_at"),
             github_refresh_token=data.get("github_refresh_token"),
