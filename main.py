@@ -45,6 +45,10 @@ setup_logger()
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await connect_to_mongodb()
+    # Create database indexes
+    from api.v1.models.user import User
+
+    await User.create_indexes()
     yield
     await close_mongodb_connection()
 
@@ -86,7 +90,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(version_one)
+app.include_router(prefix="/api/v1", router=version_one)
 
 
 @app.get("/")
